@@ -8,4 +8,4 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"hello": "world", "this": "is a response"}
+    return { "hello": "world", "from" : "fastapi-scaffolding" }
