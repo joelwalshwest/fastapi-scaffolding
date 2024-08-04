@@ -41,8 +41,3 @@ COPY ./src ./src
 EXPOSE 8080
 
 CMD ["uvicorn", "src.main:app", "--timeout-keep-alive", "0", "--host", "0.0.0.0", "--port", "8080"]
-
-# Deploy with
-# docker build -t joelwalshwest/fastapi-scaffolding . --target prod_app --platform=linux/amd64
-# docker push joelwalshwest/fastapi-scaffolding
-# gcloud run deploy fastapi-scaffolding --image joelwalshwest/fastapi-scaffolding  --platform managed  --allow-unauthenticated

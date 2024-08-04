@@ -6,7 +6,6 @@ debugpy.listen(("0.0.0.0", 5678))
 
 app = FastAPI()
 
-
 @app.get("/")
 def read_root():
-    return {"hello": "world"}
+    return {"hello": "world", "this": "is a response"}
