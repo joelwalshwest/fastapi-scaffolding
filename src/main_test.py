@@ -11,7 +11,9 @@ class TestMain(unittest.TestCase):
     def test_root_request(self):
         response = self.client.get("/")
         self.assertTrue(response.status_code == 200)
-        self.assertEqual(response.json(), {"hello": "world", "this": "is a response"})
+        self.assertEqual(
+            response.json(), {"hello": "world", "from": "fastapi-scaffolding"}
+        )
 
 
 if __name__ == "__main__":
