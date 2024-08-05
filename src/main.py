@@ -14,4 +14,4 @@ def read_root():
     r = requests.get(url)
     data = r.json()
     price = data["Global Quote"]["05. price"]
-    return "Current Goog  price is: " + price
+    return "Current Goog price is: " + price
