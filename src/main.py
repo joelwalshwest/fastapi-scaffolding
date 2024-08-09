@@ -3,7 +3,7 @@ import debugpy
 import requests
 
 
-debugpy.listen(("0.0.0.0", 5678))
+debugpy.listen(("127.0.0.1", 5678))
 
 app = FastAPI()
 
