@@ -1,6 +1,6 @@
+from debugpy.server.api import os
 from fastapi import FastAPI
-import debugpy
-import requests
+from src.endpoints.debug import health_check
 
 if os.getenv("TARGET") == "DEV":
     import debugpy
@@ -9,11 +9,4 @@ if os.getenv("TARGET") == "DEV":
 
 app = FastAPI()
 
-
-@app.get("/")
-def read_root():
-    url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=GOOG&apikey=T80PZJVLGVP3IVN7"
-    r = requests.get(url)
-    data = r.json()
-    price = data["Global Quote"]["05. price"]
-    return "Current Goog price is: " + price
+app.include_router(health_check.router)
