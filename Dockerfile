@@ -12,6 +12,8 @@ ENV PATH="/my-venv/bin:$PATH"
 
 COPY . . 
 
+ENV TARGET="DEV"
+
 # Prod Image
 
 FROM python:3.11-slim AS prod_app

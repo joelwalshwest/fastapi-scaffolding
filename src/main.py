@@ -2,8 +2,10 @@ from fastapi import FastAPI
 import debugpy
 import requests
 
+if os.getenv("TARGET") == "DEV":
+    import debugpy
 
-debugpy.listen(("127.0.0.1", 5678))
+    debugpy.listen(("127.0.0.1", 5678))
 
 app = FastAPI()
 
