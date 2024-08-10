@@ -1,11 +1,8 @@
-# Dev Image
+# Dev image with a full development environment 
 
-FROM joelwalshwest/my-development-environment AS dev_app
+FROM joelwalshwest/my-development-environment AS dev
 
 RUN apk add --no-cache python3 py3-pip
-
-RUN --mount=type=secret,id=ENV_SECRETS  \
-    cp -r /run/secrets .
 
 WORKDIR /code
 COPY ./requirements.txt ./
@@ -15,12 +12,17 @@ ENV PATH="/my-venv/bin:$PATH"
 
 COPY . . 
 
-ENV TARGET="DEV"
+EXPOSE 8080
 
+WORKDIR /root
+ARG ENVIRONMENT=0
+RUN --mount=type=secret,id=ENV_SECRETS  \
+    cp -r /run/secrets .
+WORKDIR /code
 
-# Prod Image
+# Slim image with required dependencies only
 
-FROM python:3.11-slim AS prod_app
+FROM python:3.11-slim AS slim
 
 WORKDIR /code
 COPY ./requirements.txt ./
@@ -29,5 +31,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY ./src ./src
 
 EXPOSE 8080
+
+WORKDIR /root
+ARG ENVIRONMENT=0
+RUN --mount=type=secret,id=ENV_SECRETS  \
+    cp -r /run/secrets .
+WORKDIR /code
 
 CMD ["uvicorn", "src.main:app", "--timeout-keep-alive", "0", "--host", "0.0.0.0", "--port", "8080"]
