@@ -4,6 +4,9 @@ FROM joelwalshwest/my-development-environment AS dev_app
 
 RUN apk add --no-cache python3 py3-pip
 
+RUN --mount=type=secret,id=ENV_SECRETS  \
+    cp -r /run/secrets .
+
 WORKDIR /code
 COPY ./requirements.txt ./
 RUN python -m venv /my-venv
@@ -13,6 +16,7 @@ ENV PATH="/my-venv/bin:$PATH"
 COPY . . 
 
 ENV TARGET="DEV"
+
 
 # Prod Image
 

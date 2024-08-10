@@ -1,0 +1,1 @@
+TEST="op://Private/login.docker.com/password"
