@@ -21,8 +21,6 @@ class Environment(enum.Enum):
 
     @classmethod
     def secrets(cls) -> str:
-        result = ""
-        with open("/root/secrets/ENV_SECRETS", "r+") as file_handle:
-            result = file_handle.read()
-
-        return result
+        db_username = os.getenv("MYSQL_USERNAME")
+        db_password = os.getenv("MYSQL_PASSWORD")
+        return db_username + " " + db_password

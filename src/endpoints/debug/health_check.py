@@ -12,4 +12,5 @@ async def health_check():
 @router.get("/debug/environment")
 async def environment():
     env = ev.Environment.current()
-    return {"ENIRONMENT": env}
+    secrets = ev.Environment.secrets()
+    return {"ENIRONMENT": env, "SECRETS": secrets}

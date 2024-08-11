@@ -11,23 +11,24 @@ fi
 op inject -i ./.env.tpl -o ./.env
 
 # Build the image with secrets mounted
-docker build -t fastapi-scaffolding-image . --target dev --secret id=ENV_SECRETS,src=.env 
+docker build -t fastapi-scaffolding-image . --target dev
 
-# Delete injected secrets 
-rm .env
+# # Delete injected secrets 
+# rm .env
 
 # Run the image 
 # - Run in an integrated terminal 
 # - Remove image after running 
-# - Pass the ENV variable defined above 
 # - Name of the new container 
 # - Mount all local files to a shared volume in \code
 # - Expose ports for running and debugging 
+# - Pass local secrets
 # - Image to run 
 docker run -it \
   --rm \
-  -e ENVIRONMENT=$ENV \
   --name fastapi-scaffolding-image-container \
   -v $(pwd):/code \
   -p 8080:8080 -p 5678:5678 \
-  fastapi-scaffolding-image              
+  -e ENVIRONMENT=$ENV \
+  --env-file=.env \
+  fastapi-scaffolding-image    

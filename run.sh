@@ -11,10 +11,10 @@ fi
 op inject -i ./.env.tpl -o ./.env
 
 # Build the image with secrets mounted
-docker build -t fastapi-scaffolding-image . --target slim --secret id=ENV_SECRETS,src=.env --no-cache
+docker build -t fastapi-scaffolding-image . --target slim 
 
-# Delete injected secrets 
-rm .env
+# # Delete injected secrets 
+# rm .env
 
 # Run the image 
 # - Run in an integrated terminal 
@@ -26,8 +26,9 @@ rm .env
 # - Image to run 
 docker run -it \
   --rm \
-  -e ENVIRONMENT=$ENV \
   --name fastapi-scaffolding-image-container \
   -v $(pwd):/code \
   -p 8080:8080 -p 5678:5678 \
+  -e ENVIRONMENT=$ENV \
+  --env-file=.env \
   fastapi-scaffolding-image              

@@ -11,3 +11,7 @@ if environment.Environment.current() == Environment.LOCAL:
 app = FastAPI()
 
 app.include_router(health_check.router)
+
+@app.get("/")
+async def root():
+    return "i am root"
