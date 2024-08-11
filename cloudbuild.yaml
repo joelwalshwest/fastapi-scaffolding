@@ -1,19 +1,25 @@
 steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: ['-c', 'docker login --username=$$USERNAME --password=$$PASSWORD']
+    secretEnv: ['USERNAME', 'PASSWORD']
+
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
-      '-t', 'joelwalshwest/fastapi-scaffolding:prod-latest',
+      '--target', 'slim',
+      '-t', 'joelwalshwest/fastapi-scaffolding:$COMMIT_SHA',
       '.',
-      '--target=slim',
       '--platform=linux/amd64',
+      '--no-cache'
     ]
 
   # Step 2: Push the Docker image to Docker Hub
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
-      'docker.io/joelwalshwest/fastapi-scaffolding:prod-latest'
+      'docker.io/joelwalshwest/fastapi-scaffolding:$COMMIT_SHA'
     ]
 
   # Step 3: Deploy to Google Cloud Run
@@ -22,14 +28,18 @@ steps:
       'run',
       'deploy',
       'fastapi-scaffolding',
-      '--image', 'docker.io/joelwalshwest/fastapi-scaffolding:prod-latest',
+      '--image', 'docker.io/joelwalshwest/fastapi-scaffolding:$COMMIT_SHA',
       '--platform', 'managed',
-      '--allow-unauthenticated'
+      '--allow-unauthenticated',
+      '--region', 'us-east1'
     ]
 options:
   logging: CLOUD_LOGGING_ONLY
 
-images:
-  - 'docker.io/joelwalshwest/fastapi-scaffolding:prod-latest'
-
+availableSecrets:
+   secretManager:
+   - versionName: projects/fastapi-scaffolding/secrets/DOCKER_PASSWORD/versions/latest
+     env: 'PASSWORD'
+   - versionName: projects/fastapi-scaffolding/secrets/DOCKER_USERNAME/versions/latest
+     env: 'USERNAME'
 
