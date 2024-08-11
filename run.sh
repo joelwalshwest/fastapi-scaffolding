@@ -7,14 +7,14 @@ if [ "$ENV" != "local" ] && [ "$ENV" != "prod" ] && [ "$ENV" != "qa" ]; then
     exit 1
 fi
 
+# Delete injected secrets 
+rm .env
+
 # Inject secrets
 op inject -i ./.env.tpl -o ./.env
 
 # Build the image with secrets mounted
 docker build -t fastapi-scaffolding-image . --target slim 
-
-# # Delete injected secrets 
-# rm .env
 
 # Run the image 
 # - Run in an integrated terminal 
