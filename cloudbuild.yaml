@@ -1,4 +1,5 @@
 steps:
+  # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
@@ -6,7 +7,27 @@ steps:
       '.',
       '--target', 'slim',
       '--platform=linux/amd64',
-      '--no-cache'
     ]
+
+  # Step 2: Push the Docker image to Docker Hub
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'docker.io/joelwalshwest/fastapi-scaffolding:prod-latest'
+    ]
+
+  # Step 3: Deploy to Google Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'run',
+      'deploy',
+      'fastapi-scaffolding',
+      '--image', 'docker.io/joelwalshwest/fastapi-scaffolding:prod-latest',
+      '--platform', 'managed',
+      '--allow-unauthenticated'
+    ]
+
 images:
-  - 'joelwalshwest/fastapi-scaffolding:prod-latest'
+  - 'docker.io/joelwalshwest/fastapi-scaffolding:prod-latest'
+
+
