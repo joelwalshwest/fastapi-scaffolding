@@ -1,0 +1,12 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', 'joelwalshwest/fastapi-scaffolding:prod-latest',
+      '.',
+      '--target', 'slim',
+      '--platform=linux/amd64',
+      '--no-cache'
+    ]
+images:
+  - 'joelwalshwest/fastapi-scaffolding:prod-latest'
