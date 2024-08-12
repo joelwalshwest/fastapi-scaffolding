@@ -3,3 +3,5 @@ fastapi
 debugpy
 httpx
 requests
+sqlmodel
+pymysql
