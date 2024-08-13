@@ -3,35 +3,30 @@ from src.endpoints.debug import health_check
 from src.utils import environment
 from src.utils.environment import Environment
 
-import os
-
+from google.cloud.sql.connector import Connector
 import sqlalchemy
 
+# initialize Connector object
+connector = Connector()
 
-def connect_unix_socket() -> sqlalchemy.engine.base.Engine:
-    """Initializes a Unix socket connection pool for a Cloud SQL instance of MySQL."""
-    # Note: Saving credentials in environment variables is convenient, but not
-    # secure - consider a more secure solution such as
-    # Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-    # keep secrets safe.
-    db_user = "db-user"
-    db_pass = "12345678"
-    db_name = "tmp-database"
-    unix_socket_path = "/cloudsql/fastapi-scaffolding:us-east1:fastapi-scaffolding-db"
 
-    pool = sqlalchemy.create_engine(
-        # Equivalent URL:
-        # mysql+pymysql://<db_user>:<db_pass>@/<db_name>?unix_socket=<socket_path>/<cloud_sql_instance_name>
-        sqlalchemy.engine.url.URL.create(
-            drivername="mysql+pymysql",
-            username=db_user,
-            password=db_pass,
-            database=db_name,
-            query={"unix_socket": unix_socket_path},
-        ),
-        # ...
+# function to return the database connection
+def getconn() -> pymysql.connections.Connection:
+    conn: pymysql.connections.Connection = connector.connect(
+        "fastapi-scaffolding:us-east1:fastapi-scaffolding-db",
+        "pymysql",
+        user="db-user",
+        password="12345678",
+        db="tmp-database",
     )
-    return pool
+    return conn
+
+
+# create connection pool
+engine = sqlalchemy.create_engine(
+    "mysql+pymysql://",
+    creator=getconn,
+)
 
 
 if environment.Environment.current() == Environment.LOCAL:
@@ -51,9 +46,6 @@ class Hero(SQLModel, table=True):
     name: str
     secret_name: str
     age: int | None = None
-
-
-engine = connect_unix_socket()
 
 
 def get_session():
