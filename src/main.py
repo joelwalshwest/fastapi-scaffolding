@@ -3,43 +3,21 @@ from src.endpoints.debug import health_check
 from src.utils import environment
 from src.utils.environment import Environment
 
-from google.cloud.sql.connector import Connector
-import sqlalchemy
-import pymysql
-
-# initialize Connector object
-connector = Connector()
-
-
-# function to return the database connection
-def getconn() -> pymysql.connections.Connection:
-    conn: pymysql.connections.Connection = connector.connect(
-        "fastapi-scaffolding:us-east1:fastapi-scaffolding-db",
-        "pymysql",
-        user="db-user",
-        password="12345678",
-        db="tmp-database",
-    )
-    return conn
-
-
-# create connection pool
-engine = sqlalchemy.create_engine(
-    "mysql+pymysql://",
-    creator=getconn,
-)
-
 
 if environment.Environment.current() == Environment.LOCAL:
     import debugpy
 
     debugpy.listen(("127.0.0.1", 5678))
 
+
 app = FastAPI()
 
 app.include_router(health_check.router)
 
 from sqlmodel import Field, SQLModel, create_engine, Session, select
+from src.database import connection
+
+engine = connection.get_connection()
 
 
 class Hero(SQLModel, table=True):
