@@ -23,3 +23,7 @@ RUN /my-venv/bin/pip install --no-cache-dir -r requirements.txt
 ENV PATH="/my-venv/bin:$PATH"
 
 COPY . . 
+
+# Copy local nvim configurations 
+COPY .nvim/local.lua /root/.config/nvim/lua/joelwalshwest/
+RUN echo "require('joelwalshwest.local')" >> /root/.config/nvim/lua/joelwalshwest/init.lua
