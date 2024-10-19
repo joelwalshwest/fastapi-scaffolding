@@ -6,7 +6,7 @@ router = fastapi.APIRouter()
 
 @router.get("/debug/health_check")
 async def health_check():
-    return "all systems go"
+    return {"test": "this actually worked"}
 
 
 @router.get("/debug/environment")
