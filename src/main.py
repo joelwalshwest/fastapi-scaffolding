@@ -14,6 +14,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:80",
+    "https://api.fastapi-scaffolding.joelwalshwest.com",
 ]
 
 app.add_middleware(
