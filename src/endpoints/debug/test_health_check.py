@@ -12,7 +12,7 @@ class TestDebug(unittest.TestCase):
         response = self._CLIENT.get("/debug/health_check")
 
         self.assertTrue(response.status_code == 200)
-        self.assertEqual(response.json(), "all systems go")
+        self.assertEqual(response.json(), {"result": "All systems go!"})
 
 
 if __name__ == "__main__":

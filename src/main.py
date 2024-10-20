@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.endpoints.debug import health_check
+from src.endpoints.debug import debug
 from src.utils import environment
 from src.utils import constants
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,7 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(health_check.router)
+app.include_router(debug.router)
 
 
 @app.get("/")

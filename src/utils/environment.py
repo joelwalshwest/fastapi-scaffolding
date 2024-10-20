@@ -19,8 +19,8 @@ class Environment(enum.Enum):
             case _:
                 exit(1)
 
-    @classmethod
-    def secrets(cls) -> str:
-        db_username = os.getenv("MYSQL_USERNAME")
-        db_password = os.getenv("MYSQL_PASSWORD")
-        return db_username + " " + db_password
+    def MYS_SQL_USERNAME(self) -> str:
+        return str(os.getenv("MYSQL_USERNAME"))
+
+    def MYS_SQL_PASSWORD(self) -> str:
+        return str(os.getenv("MYSQL_PASSWORD"))
