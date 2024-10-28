@@ -4,8 +4,8 @@ from src.utils import environment
 from sqlalchemy import Engine, create_engine
 
 
-_LOCAL_DB_FIILE_NAME = "database.db"
-_CLOUD_SQL_DB_CONNECTION_NAME = "fastapi-scaffolding:us-east1:fastapi-scaffolding-db"
+_LOCAL_DB_FILE_NAME = "database.db"
+_CLOUD_SQL_DB_NAME = "fastapi-scaffolding:us-east1:fastapi-scaffolding-db"
 _DB_USERNAME = environment.Environment.get_mysql_username()
 _DB_PASSWORD = environment.Environment.get_mysql_password()
 
@@ -22,7 +22,7 @@ def get_engine(env: environment.Environment) -> Engine:
 
 
 def _get_local_connection() -> Engine:
-    return create_engine("sqlite:///" + _LOCAL_DB_FIILE_NAME)
+    return create_engine("sqlite:///" + _LOCAL_DB_FILE_NAME)
 
 
 def _get_cloud_connection() -> Engine:
@@ -45,6 +45,6 @@ def _cloud_connection_creator(
 def _get_cloud_connection_str(env: environment.Environment) -> str:
     match env:
         case environment.Environment.QA | environment.Environment.PROD:
-            return _CLOUD_SQL_DB_CONNECTION_NAME
+            return _CLOUD_SQL_DB_NAME
         case _:
             raise ValueError("Cloud connection str does not apply to LOCAL environment")
