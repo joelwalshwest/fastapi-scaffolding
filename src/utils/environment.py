@@ -19,18 +19,9 @@ class Environment(enum.Enum):
             case _:
                 exit(1)
 
-    @classmethod
-    def get_mysql_username(cls) -> str:
-        my_sql_username = os.getenv("MYSQL_USERNAME")
-        if my_sql_username is None:
-            raise RuntimeError("Expected to have environment populated")
 
-        return my_sql_username
+    def MYS_SQL_USERNAME(self) -> str:
+        return str(os.getenv("MYSQL_USERNAME"))
 
-    @classmethod
-    def get_mysql_password(cls) -> str:
-        my_sql_password = os.getenv("MYSQL_PASSWORD")
-        if my_sql_password is None:
-            raise RuntimeError("Expected to have environment populated")
-
-        return my_sql_password
+    def MYS_SQL_PASSWORD(self) -> str:
+        return str(os.getenv("MYSQL_PASSWORD"))

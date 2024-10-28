@@ -4,5 +4,5 @@ from src.endpoints.debug import debug
 
 @debug.router.get("/debug/environment")
 async def environment():
-    environment = ev.Environment.current()
-    return {"Environment": environment}
+    env = ev.Environment.current()
+    return {"ENV": env.value, "MYSQL_USERNAME": env.MYS_SQL_USERNAME()}
