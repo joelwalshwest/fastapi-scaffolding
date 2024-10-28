@@ -20,8 +20,8 @@ class Environment(enum.Enum):
                 exit(1)
 
 
-    def MYS_SQL_USERNAME(self) -> str:
+    def MY_SQL_USERNAME(self) -> str:
         return str(os.getenv("MYSQL_USERNAME"))
 
-    def MYS_SQL_PASSWORD(self) -> str:
+    def MY_SQL_PASSWORD(self) -> str:
         return str(os.getenv("MYSQL_PASSWORD"))

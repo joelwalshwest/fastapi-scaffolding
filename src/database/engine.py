@@ -6,8 +6,8 @@ from sqlalchemy import Engine, create_engine
 
 _LOCAL_DB_FILE_NAME = "database.db"
 _CLOUD_SQL_DB_NAME = "fastapi-scaffolding:us-east1:fastapi-scaffolding-db"
-_DB_USERNAME = environment.Environment.get_mysql_username()
-_DB_PASSWORD = environment.Environment.get_mysql_password()
+_DB_USERNAME = environment.Environment.current().MY_SQL_USERNAME()
+_DB_PASSWORD = environment.Environment.current().MY_SQL_PASSWORD()
 
 if environment.Environment.current() != environment.Environment.LOCAL:
     _CONNECTOR = Connector()
