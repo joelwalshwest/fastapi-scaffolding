@@ -17,7 +17,8 @@ class Environment(enum.Enum):
             case "prod":
                 return Environment.PROD
             case _:
-                exit(1)
+                # Default to local 
+                return Environment.LOCAL
 
 
     def MY_SQL_USERNAME(self) -> str:
