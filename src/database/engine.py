@@ -15,12 +15,10 @@ if environment.Environment.current() != environment.Environment.LOCAL:
 
 def get_engine(env: environment.Environment) -> Engine:
     match env:
-        case environment.Environment.QA, environment.Environment.PROD:
+        case environment.Environment.QA | environment.Environment.PROD:
             return _get_cloud_connection()
         case environment.Environment.LOCAL:
             return _get_local_connection()
-        case _:
-            raise ValueError(f"Unknown environmnet: {environment}")
 
 
 def _get_local_connection() -> Engine:
@@ -46,7 +44,7 @@ def _cloud_connection_creator(
 
 def _get_cloud_connection_str(env: environment.Environment) -> str:
     match env:
-        case environment.Environment.QA, environment.Environment.PROD:
+        case environment.Environment.QA | environment.Environment.PROD:
             return _CLOUD_SQL_DB_CONNECTION_NAME
         case _:
             raise ValueError("Cloud connection str does not apply to LOCAL environment")

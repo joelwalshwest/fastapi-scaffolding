@@ -1,7 +1,11 @@
-from fastapi import Depends, FastAPI
-from src.endpoints.debug import health_check
+from fastapi import FastAPI
+from src.endpoints.heroes import heroes
+from src.endpoints.debug import debug
 from src.utils import environment
 from src.utils.environment import Environment
+from contextlib import asynccontextmanager
+from sqlmodel import SQLModel
+from src.database import session
 
 
 if environment.Environment.current() == Environment.LOCAL:
@@ -12,45 +16,16 @@ if environment.Environment.current() == Environment.LOCAL:
 
 app = FastAPI()
 
-app.include_router(health_check.router)
-
-from sqlmodel import Field, SQLModel, create_engine, Session, select
-from src.database import connection
-
-engine = connection.get_connection()
+app.include_router(debug.router)
+app.include_router(heroes.router)
 
 
-class Hero(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    name: str
-    secret_name: str
-    age: int | None = None
-
-
-def get_session():
-    with Session(engine) as session:
-        yield session
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    SQLModel.metadata.create_all(session.get_engine())
+    yield
 
 
 @app.get("/")
 async def root():
-    return "I'm just here showing off my automated builds!"
-
-
-@app.on_event("startup")
-def on_startup():
-    SQLModel.metadata.create_all(engine)
-
-
-@app.post("/heroes/")
-def create_hero(*, session: Session = Depends(get_session), hero: Hero):
-    session.add(hero)
-    session.commit()
-    session.refresh(hero)
-    return hero
-
-
-@app.get("/heroes")
-def read_heroes(*, session: Session = Depends(get_session)):
-    heroes = session.exec(select(Hero)).all()
-    return heroes
+    return "fastapi-scaffolding v0"
