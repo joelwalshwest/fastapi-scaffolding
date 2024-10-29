@@ -9,6 +9,7 @@ class Environment(enum.Enum):
 
     @classmethod
     def current(cls) -> "Environment":
+        print(os.getenv("ENVIRONMENT"))
         match os.getenv("ENVIRONMENT"):
             case "local":
                 return Environment.LOCAL
