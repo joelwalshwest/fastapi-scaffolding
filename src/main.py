@@ -14,7 +14,13 @@ if environment.Environment.current() == environment.Environment.LOCAL:
     debugpy.listen(("127.0.0.1", 5678))
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    SQLModel.metadata.create_all(session.get_engine())
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 app.include_router(debug.router)
 app.include_router(heroes.router)
 app.add_middleware(
@@ -24,12 +30,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@asynccontextmanager
-async def lifespan(_: FastAPI):
-    SQLModel.metadata.create_all(session.get_engine())
-    yield
 
 
 @app.get("/")
