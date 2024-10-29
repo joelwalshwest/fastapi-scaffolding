@@ -17,10 +17,12 @@ class Environment(enum.Enum):
             case "prod":
                 return Environment.PROD
             case _:
-                exit(1)
+                # Default to local 
+                return Environment.LOCAL
 
-    def MYS_SQL_USERNAME(self) -> str:
+
+    def MY_SQL_USERNAME(self) -> str:
         return str(os.getenv("MYSQL_USERNAME"))
 
-    def MYS_SQL_PASSWORD(self) -> str:
+    def MY_SQL_PASSWORD(self) -> str:
         return str(os.getenv("MYSQL_PASSWORD"))

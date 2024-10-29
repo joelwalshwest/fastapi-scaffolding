@@ -1,4 +1,3 @@
-import os
 from src.endpoints.debug import debug
 import random
 import datetime
