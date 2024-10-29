@@ -15,7 +15,8 @@ if environment.Environment.current() == environment.Environment.LOCAL:
 
 
 app = FastAPI()
-
+app.include_router(debug.router)
+app.include_router(heroes.router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=constants.ORIGINS,
@@ -23,9 +24,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.include_router(debug.router)
-app.include_router(heroes.router)
 
 
 @asynccontextmanager
