@@ -10,9 +10,9 @@ fi
 if [ "$ENV" == "prod" ]; then
     docker build -t joelwalshwest/fastapi-scaffolding:prod-latest . --target slim --platform=linux/amd64  --no-cache
     docker push joelwalshwest/fastapi-scaffolding:prod-latest
-    gcloud run deploy fastapi-scaffolding --image joelwalshwest/fastapi-scaffolding:prod-latest --platform managed  --allow-unauthenticated --project fastapi-scaffolding
+    gcloud run deploy fastapi-scaffolding --image joelwalshwest/fastapi-scaffolding:prod-latest --platform managed  --allow-unauthenticated --project fastapi-scaffoldingAa --set-env-vars="ENVIRONMENT=prod"
 elif [ "$ENV" == "qa" ]; then
     docker build -t joelwalshwest/fastapi-scaffolding:qa-latest . --target slim --platform=linux/amd64 --no-cache
     docker push joelwalshwest/fastapi-scaffolding:qa-latest
-    gcloud run deploy qa-fastapi-scaffolding --image joelwalshwest/fastapi-scaffolding:qa-latest  --platform managed  --allow-unauthenticated --project fastapi-scaffolding
+    gcloud run deploy qa-fastapi-scaffolding --image joelwalshwest/fastapi-scaffolding:qa-latest  --platform managed  --allow-unauthenticated --project fastapi-scaffolding --set-env-vars="ENVIRONMENT=qa"
 fi
