@@ -30,9 +30,8 @@ def _get_cloud_connection() -> Engine:
 
 
 def _cloud_connection_creator(
-    environment: environment.Environment,
 ) -> pymysql.connections.Connection:
-    instance_connection_str = _get_cloud_connection_str(environment)
+    instance_connection_str = _get_cloud_connection_str(environment.Environment.current())
     return _CONNECTOR.connect(
         instance_connection_str,
         "pymysql",
