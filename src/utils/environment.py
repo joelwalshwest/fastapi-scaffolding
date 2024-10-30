@@ -1,8 +1,22 @@
 import enum
 import os
 
-_GOOGLE_APPLICATION_CREDENTIALS_FILE_NAME = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_FILE_NAME")
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/code/.config/gcloud/" + _GOOGLE_APPLICATION_CREDENTIALS_FILE_NAME
+
+def _EXPORT_ENVIRONMENT_VARIABLES():
+    google_application_credentials_file_name = str(
+        os.getenv("GOOGLE_APPLICATION_CREDENTIALS_FILE_NAME")
+    )
+
+    is_running_locally = google_application_credentials_file_name is not None
+
+    if is_running_locally:
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = (
+            "/code/.config/gcloud/" + google_application_credentials_file_name
+        )
+
+
+_EXPORT_ENVIRONMENT_VARIABLES()
+
 
 class Environment(enum.Enum):
     LOCAL = "local"
