@@ -1,3 +1,6 @@
+# GCP application credential files
+/.config/gcloud/*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
