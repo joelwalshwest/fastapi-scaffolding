@@ -1,6 +1,8 @@
 import enum
 import os
 
+_GOOGLE_APPLICATION_CREDENTIALS_FILE_NAME = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_FILE_NAME")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/code/.config/gcloud/" + _GOOGLE_APPLICATION_CREDENTIALS_FILE_NAME
 
 class Environment(enum.Enum):
     LOCAL = "local"
