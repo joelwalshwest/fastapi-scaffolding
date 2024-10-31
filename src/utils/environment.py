@@ -3,8 +3,8 @@ import os
 
 
 def _EXPORT_ENVIRONMENT_VARIABLES():
-    google_application_credentials_file_name = str(
-        os.getenv("GOOGLE_APPLICATION_CREDENTIALS_FILE_NAME")
+    google_application_credentials_file_name = os.getenv(
+        "GOOGLE_APPLICATION_CREDENTIALS_FILE_NAME"
     )
 
     is_running_locally = google_application_credentials_file_name is not None
