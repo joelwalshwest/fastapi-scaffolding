@@ -11,9 +11,9 @@ fi
 HASH=$(( RANDOM % 9000 + 1000 ))$(( RANDOM % 9000 + 1000 ))$(( RANDOM % 9000 + 1000 ))$(( RANDOM % 9000 + 1000 ))
 
 if [ "$ENV" == "prod" ]; then
-    docker build -t joelwalshwest/fastapi-scaffolding:$HASH . --target slim --platform=linux/amd64  --no-cache
+    docker build -t joelwalshwest/fastapi-scaffolding:$HASH . --target slim --platform=linux/amd64 --no-cache
     docker push joelwalshwest/fastapi-scaffolding:$HASH
-    gcloud run deploy fastapi-scaffolding --image joelwalshwest/fastapi-scaffolding:$HASH --platform managed  --allow-unauthenticated --project fastapi-scaffoldingAa --set-env-vars="ENVIRONMENT=prod"
+    gcloud run deploy fastapi-scaffolding --image joelwalshwest/fastapi-scaffolding:$HASH --platform managed  --allow-unauthenticated --project fastapi-scaffolding --set-env-vars="ENVIRONMENT=prod"
 elif [ "$ENV" == "qa" ]; then
     docker build -t joelwalshwest/fastapi-scaffolding:$HASH . --target slim --platform=linux/amd64 --no-cache
     docker push joelwalshwest/fastapi-scaffolding:$HASH
