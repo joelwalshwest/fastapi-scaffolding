@@ -34,4 +34,4 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return "fastapi-scaffolding v0"
+    return "fastapi-scaffolding v1"
